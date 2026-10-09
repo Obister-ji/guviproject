@@ -12,7 +12,7 @@ The whole app runs on three beats, and the menus follow them:
 
 # guviproject - Online E-commerce Platform
 
-College project for GUVI. A console-based shop written in plain Java with no libraries, where an admin, sellers and buyers each get their own dashboard.
+College project for GUVI. A desktop shop written in plain Java (Swing, no external libraries), where an admin, sellers and buyers each get their own dashboard.
 
 ## Running it
 
@@ -25,7 +25,7 @@ java -cp out shop.Main
 
 First run creates a `data/` folder and saves everything to `data/store.ser`, so your products and orders are still there next time. Delete that folder to start over.
 
-Default admin: `admin@shop.local` / `admin123`. Change it from the admin menu once you're in (add a new admin, delete this one).
+Default admin: `admin@shop.local` / `admin123`. Change it from the Users tab once you're in (add a new admin, delete this one).
 
 ## What each role can do
 
@@ -33,13 +33,13 @@ Default admin: `admin@shop.local` / `admin123`. Change it from the admin menu on
 - Add, edit and delete users and change roles (it won't let you delete yourself or the last admin)
 - See every product, add one on behalf of a seller, edit or remove it
 - See every order and change its status
-- Dashboard shows totals and the latest activity; the full log is one menu away
+- Overview tab shows totals and the latest activity; the full log has its own tab
 
 **Seller**
 - List, edit and remove their own products
-- Inventory screen with bars for stock levels, and a `LOW` flag at 5 units or fewer
+- Inventory tab with a bar per product for stock level, turning red and flagged `LOW` at 5 units or fewer
 - See orders for their products and push them through the status steps
-- Sales report per product and per day (cancelled orders are left out)
+- Sales charts: revenue per product and per day (cancelled orders are left out)
 
 **Buyer**
 - Search by keyword, category and price range
@@ -59,17 +59,16 @@ Default admin: `admin@shop.local` / `admin123`. Change it from the admin menu on
 
 ```
 src/shop/
-  Main.java          login and sign-up
-  AdminMenu.java     admin dashboard
-  SellerMenu.java    seller dashboard
-  BuyerMenu.java     buyer dashboard
+  Main.java, App.java            window, login and sign-up
+  AdminPanel / SellerPanel / BuyerPanel    one dashboard per role, one tab per feature
+  ProductsTab, OrdersTab         tabs shared by admin and seller (and buyer for orders)
   Store.java         data, saving, and the rules that span several objects (checkout, status changes)
   User, Product, Order, Role, OrderStatus    the model
-  Views, Fmt, In     tables, formatting, input helpers
+  Tab, Ui, Fmt       small Swing and formatting helpers
 ```
 
 ## Known limits
 
-- Console only, single user at a time. The "real-time" activity feed is the log refreshed each time a dashboard is drawn.
+- Desktop app, one user at a time. The "real-time" activity feed refreshes whenever you open a tab, not on a timer.
 - Storage is Java serialization to one file, not a database. Changing the model classes can make an old `data/store.ser` unreadable; delete it if that happens.
 - Prices use `double`, which is fine for a demo but `BigDecimal` would be the right choice for real money.
