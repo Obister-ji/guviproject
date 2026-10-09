@@ -1,6 +1,6 @@
 # Veni, Vidi, Vici
 
-The whole app runs on three beats, and the menus follow them:
+The whole app runs on three beats, and the screens follow them:
 
 | | Meaning here | What happens |
 |---|---|---|
